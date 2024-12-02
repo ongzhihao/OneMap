@@ -16,7 +16,7 @@ $.get("https://www.onemap.gov.sg/maps/json/raster/tilejson/2.2.0/GreyLite.json",
     // Function to add a marker to the map
     function addMarker(lat, lng, name, description) {
         let marker = L.marker([lat, lng]).addTo(map);
-        marker.bindPopup(`<b>${name}</b><br>${description}`);
+        marker.bindPopup(`<b>${name}</b><br>${description}`).openPopup();
     }
 
     let selectedLatLng;
