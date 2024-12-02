@@ -19,13 +19,29 @@ $.get("https://www.onemap.gov.sg/maps/json/raster/tilejson/2.2.0/GreyLite.json",
         marker.bindPopup(`<b>${name}</b><br>${description}`);
     }
 
+    let selectedLatLng;
+
+    // Add click event to the map to select coordinates
+    map.on('click', function(e) {
+        selectedLatLng = e.latlng;
+        L.popup()
+            .setLatLng(selectedLatLng)
+            .setContent("You selected the location: " + selectedLatLng.toString())
+            .openOn(map);
+    });
+
     // Add event listener to the form
     document.getElementById('poiForm').addEventListener('submit', function(e) {
         e.preventDefault();
         let name = document.getElementById('name').value;
         let description = document.getElementById('description').value;
-        let center = map.getCenter();
 
-        addMarker(center.lat, center.lng, name, description);
+        if (selectedLatLng) {
+            addMarker(selectedLatLng.lat, selectedLatLng.lng, name, description);
+            selectedLatLng = null; // Reset selectedLatLng after adding the marker
+            map.closePopup(); // Close the popup after adding the marker
+        } else {
+            alert("Please click on the map to select a location.");
+        }
     });
 });
