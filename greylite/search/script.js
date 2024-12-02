@@ -19,6 +19,17 @@ $.get("https://www.onemap.gov.sg/maps/json/raster/tilejson/2.2.0/GreyLite.json",
         marker.bindPopup(`<b>${name}</b><br>${description}`);
     }
 
+    // Function to create an iframe with a map
+    function createIframe(lat, lng) {
+        let iframe = document.createElement('iframe');
+        iframe.width = "600";
+        iframe.height = "450";
+        iframe.src = `https://www.onemap.gov.sg/main/v2/?lat=${lat}&lng=${lng}&zoom=16`;
+        iframe.frameBorder = "0";
+        iframe.style.border = "0";
+        document.getElementById('iframeContainer').appendChild(iframe);
+    }
+
     let selectedLatLng;
 
     // Add click event to the map to select coordinates
@@ -38,6 +49,7 @@ $.get("https://www.onemap.gov.sg/maps/json/raster/tilejson/2.2.0/GreyLite.json",
 
         if (selectedLatLng) {
             addMarker(selectedLatLng.lat, selectedLatLng.lng, name, description);
+            createIframe(selectedLatLng.lat, selectedLatLng.lng); // Create iframe with map view
             selectedLatLng = null; // Reset selectedLatLng after adding the marker
             map.closePopup(); // Close the popup after adding the marker
         } else {
